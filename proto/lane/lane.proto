@@ -1,0 +1,32 @@
+syntax = "proto3";
+package adas.lane;
+import "common/common.proto";
+
+message LaneBoundary {
+  uint32 boundary_id = 1;
+  LaneMarkingType marking_type = 2;
+  repeated adas.common.Point2D points = 3;
+  float confidence = 4;
+  float c0 = 5;
+  float c1 = 6;
+  float c2 = 7;
+  float c3 = 8;
+}
+
+message LaneModel {
+  adas.common.Header header = 1;
+  LaneBoundary left_boundary = 2;
+  LaneBoundary right_boundary = 3;
+  float lane_width_m = 4;
+  float curvature = 5;
+  bool lane_valid = 6;
+}
+
+enum LaneMarkingType {
+  MARKING_UNKNOWN = 0;
+  MARKING_SOLID = 1;
+  MARKING_DASHED = 2;
+  MARKING_DOUBLE_SOLID = 3;
+  MARKING_ROAD_EDGE = 4;
+  MARKING_NONE = 5;
+}

@@ -1,0 +1,28 @@
+syntax = "proto3";
+package adas.isp;
+import "common/common.proto";
+
+message ProcessedFrame {
+  adas.common.Header header = 1;
+  uint32 width = 2;
+  uint32 height = 3;
+  uint32 channels = 4;
+  bytes pixel_data = 5;
+  FrameFormat format = 6;
+  CameraIntrinsics intrinsics = 7;
+}
+
+enum FrameFormat {
+  FORMAT_UNKNOWN = 0;
+  FORMAT_RGB8 = 1;
+  FORMAT_YUV420 = 2;
+  FORMAT_NV12 = 3;
+}
+
+message CameraIntrinsics {
+  float fx = 1;
+  float fy = 2;
+  float cx = 3;
+  float cy = 4;
+  repeated float distortion_coeffs = 5;
+}

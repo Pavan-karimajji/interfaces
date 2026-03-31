@@ -1,0 +1,15 @@
+syntax = "proto3";
+package adas.fusion;
+import "common/common.proto";
+import "perception/track.proto";
+import "perception/free_space.proto";
+import "lane/lane.proto";
+
+message SceneModel {
+  adas.common.Header header = 1;
+  adas.perception.TrackList tracks = 2;
+  adas.lane.LaneModel ego_lane = 3;
+  adas.perception.FreeSpaceContour free_space = 4;
+  float ego_speed_mps = 5;
+  float ego_yaw_rate_radps = 6;
+}

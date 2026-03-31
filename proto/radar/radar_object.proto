@@ -1,0 +1,17 @@
+syntax = "proto3";
+package adas.radar;
+import "common/common.proto";
+
+// Placeholder for future 1V1R product
+message RadarObject {
+  uint32 object_id = 1;
+  adas.common.Point3D position = 2;
+  float velocity_radial_mps = 3;
+  float rcs_dbsm = 4;
+  float confidence = 5;
+}
+
+message RadarObjectList {
+  adas.common.Header header = 1;
+  repeated RadarObject objects = 2;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+package adas.perception;
+import "common/common.proto";
+
+message FreeSpaceContour {
+  adas.common.Header header = 1;
+  repeated adas.common.Point2D boundary_points = 2;
+  float max_range_m = 3;
+}

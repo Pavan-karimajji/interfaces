@@ -1,0 +1,21 @@
+syntax = "proto3";
+package adas.common;
+import "common/common.proto";
+
+message VehicleState {
+  Header header = 1;
+  float speed_mps = 2;
+  float yaw_rate_radps = 3;
+  float steering_angle_rad = 4;
+  float acceleration_mpss = 5;
+  GearState gear = 6;
+  bool brake_applied = 7;
+}
+
+enum GearState {
+  GEAR_UNKNOWN = 0;
+  GEAR_PARK = 1;
+  GEAR_REVERSE = 2;
+  GEAR_NEUTRAL = 3;
+  GEAR_DRIVE = 4;
+}

@@ -1,0 +1,30 @@
+syntax = "proto3";
+package adas.perception;
+import "common/common.proto";
+
+message Detection {
+  uint32 object_id = 1;
+  ObjectClass object_class = 2;
+  adas.common.BoundingBox2D bbox_2d = 3;
+  adas.common.BoundingBox3D bbox_3d = 4;
+  float confidence = 5;
+  float distance_m = 6;
+  float relative_velocity_mps = 7;
+}
+
+message DetectionList {
+  adas.common.Header header = 1;
+  repeated Detection detections = 2;
+}
+
+enum ObjectClass {
+  OBJECT_UNKNOWN = 0;
+  OBJECT_CAR = 1;
+  OBJECT_TRUCK = 2;
+  OBJECT_BUS = 3;
+  OBJECT_TWO_WHEELER = 4;
+  OBJECT_AUTO_RICKSHAW = 5;
+  OBJECT_PEDESTRIAN = 6;
+  OBJECT_CYCLIST = 7;
+  OBJECT_ANIMAL = 8;
+}

@@ -1,0 +1,39 @@
+syntax = "proto3";
+package adas.common;
+
+message Timestamp {
+  uint64 seconds = 1;
+  uint32 nanoseconds = 2;
+}
+
+message Header {
+  Timestamp stamp = 1;
+  string frame_id = 2;
+  uint64 sequence = 3;
+}
+
+message Point2D {
+  float x = 1;
+  float y = 2;
+}
+
+message Point3D {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+message BoundingBox2D {
+  float x = 1;
+  float y = 2;
+  float width = 3;
+  float height = 4;
+}
+
+message BoundingBox3D {
+  Point3D center = 1;
+  float length = 2;
+  float width = 3;
+  float height = 4;
+  float yaw = 5;
+}

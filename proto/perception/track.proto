@@ -1,0 +1,28 @@
+syntax = "proto3";
+package adas.perception;
+import "common/common.proto";
+import "perception/detection.proto";
+
+message Track {
+  uint32 track_id = 1;
+  ObjectClass object_class = 2;
+  adas.common.BoundingBox3D bbox_3d = 3;
+  float velocity_x_mps = 4;
+  float velocity_y_mps = 5;
+  float heading_rad = 6;
+  TrackState state = 7;
+  uint32 age_frames = 8;
+  float confidence = 9;
+}
+
+message TrackList {
+  adas.common.Header header = 1;
+  repeated Track tracks = 2;
+}
+
+enum TrackState {
+  TRACK_TENTATIVE = 0;
+  TRACK_CONFIRMED = 1;
+  TRACK_COASTING = 2;
+  TRACK_DELETED = 3;
+}

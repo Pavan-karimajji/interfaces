@@ -1,0 +1,12 @@
+syntax = "proto3";
+package adas.control;
+import "common/common.proto";
+
+message ControlCommand {
+  adas.common.Header header = 1;
+  float target_acceleration_mpss = 2;
+  float target_speed_mps = 3;
+  float target_steering_angle_rad = 4;
+  bool brake_request = 5;
+  bool emergency_stop = 6;
+}

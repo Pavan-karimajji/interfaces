@@ -1,0 +1,19 @@
+syntax = "proto3";
+package adas.planning;
+import "common/common.proto";
+
+message TrajectoryPoint {
+  adas.common.Point2D position = 1;
+  float heading_rad = 2;
+  float velocity_mps = 3;
+  float acceleration_mpss = 4;
+  float curvature = 5;
+  float time_offset_s = 6;
+}
+
+message Trajectory {
+  adas.common.Header header = 1;
+  repeated TrajectoryPoint points = 2;
+  float total_length_m = 3;
+  float total_time_s = 4;
+}
