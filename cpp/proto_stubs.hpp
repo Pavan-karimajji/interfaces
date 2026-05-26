@@ -7,7 +7,6 @@ struct ProcessedFrame {};
 }}
 
 namespace adas { namespace perception {
-struct DetectionList {};
 struct TrackList {};
 struct FreeSpaceContour {};
 }}
