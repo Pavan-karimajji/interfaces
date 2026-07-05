@@ -1,6 +1,6 @@
 #pragma once
 
-namespace adas { namespace perception { class TrackList; } }
+namespace adas { namespace perception { class GenObjectList; } }
 namespace adas { namespace fusion { class SceneModel; } }
 
 namespace adas { namespace fusion {
@@ -9,7 +9,7 @@ namespace adas { namespace fusion {
 class IFusionEngine {
 public:
     virtual ~IFusionEngine() = default;
-    virtual SceneModel fuse(const adas::perception::TrackList& camera_tracks) = 0;
+    virtual SceneModel fuse(const adas::perception::GenObjectList& cameraObjects) = 0;
     // Future: overload with radar input for 1V1R
 };
 

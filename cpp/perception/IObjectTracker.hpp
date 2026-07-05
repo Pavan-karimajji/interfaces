@@ -1,6 +1,6 @@
 #pragma once
 
-namespace adas { namespace perception { class DetectionList; class TrackList; } }
+namespace adas { namespace perception { class DetectionList; class GenObjectList; } }
 
 namespace adas { namespace perception {
 
@@ -9,12 +9,12 @@ class IObjectTracker {
 public:
     virtual ~IObjectTracker() = default;
 
-    /// @brief Update tracks with new detections
+    /// @brief Update objects with new detections
     /// @param detections Latest detection list from detector
-    /// @return Updated track list (confirmed + tentative + coasting)
-    virtual TrackList update(const DetectionList& detections) = 0;
+    /// @return Updated object list (confirmed + tentative + coasting)
+    virtual GenObjectList update(const DetectionList& detections) = 0;
 
-    /// @brief Reset all tracks (e.g., on sensor failure)
+    /// @brief Reset all objects (e.g., on sensor failure)
     virtual void reset() = 0;
 };
 

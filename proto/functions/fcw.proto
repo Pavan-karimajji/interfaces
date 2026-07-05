@@ -1,0 +1,17 @@
+syntax = "proto3";
+package adas.functions;
+import "common/common.proto";
+
+// FCW is AEB's warning stage (superproject plan.md §5.6) — published by the
+// AEB component, never a standalone function.
+message FcwWarning {
+  enum Level {
+    NONE = 0;
+    EARLY = 1;
+    ACUTE = 2;
+  }
+  adas.common.Header header = 1;
+  Level level = 2;
+  float ttc_s = 3;
+  uint32 critical_obj_id = 4;
+}

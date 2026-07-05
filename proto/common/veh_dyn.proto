@@ -2,7 +2,7 @@ syntax = "proto3";
 package adas.common;
 import "common/common.proto";
 
-message VehicleState {
+message VehDyn {
   Header header = 1;
   float speed_mps = 2;
   float yaw_rate_radps = 3;

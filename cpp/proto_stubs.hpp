@@ -7,12 +7,12 @@ struct ProcessedFrame {};
 }}
 
 namespace adas { namespace perception {
-struct TrackList {};
+struct GenObjectList {};
 struct FreeSpaceContour {};
 }}
 
 namespace adas { namespace common {
-struct VehicleState {};
+struct VehDyn {};
 }}
 
 namespace adas { namespace control {
