@@ -18,7 +18,6 @@ adas_generate_protos(adas-interfaces
         proto/perception/detection.proto
         proto/perception/object.proto
         proto/perception/free_space.proto
-        proto/functions/fcw.proto
         proto/functions/comp_state.proto
 )
 
