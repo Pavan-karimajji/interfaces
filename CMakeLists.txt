@@ -22,11 +22,6 @@ adas_generate_protos(adas-interfaces
         proto/PerceptionCore__Outputs/gen_object_list.proto
         proto/VehSigProvider__Outputs/veh_dyn.proto
         proto/Aeb__Outputs/aeb_hyp_reaction.proto
-        proto/lane/lane.proto
-        proto/planning/trajectory.proto
-        proto/control/control_command.proto
-        proto/fusion/scene_model.proto
-        proto/radar/radar_object.proto
 )
 
 # Export its public header search path (for internal usage inside the subdirectory)
