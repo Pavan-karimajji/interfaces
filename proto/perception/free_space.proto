@@ -2,6 +2,10 @@ syntax = "proto3";
 package adas.perception;
 import "common/common.proto";
 
+// PROVENANCE: original architecture-session design, predates this project's
+// reference-mining exercise. NOT verified against Continental reference material —
+// do not assume these field names/shapes are sourced. See
+// docs/interfaces_types_migration.md §0 for the verified-vs-legacy boundary.
 message FreeSpaceContour {
   adas.common.Header header = 1;
   repeated adas.common.Point2D boundary_points = 2;

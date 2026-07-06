@@ -1,10 +1,14 @@
 syntax = "proto3";
 package adas.fusion;
 import "common/common.proto";
-import "perception/object.proto";
+import "PerceptionCore__Outputs/gen_object_list.proto";
 import "perception/free_space.proto";
 import "lane/lane.proto";
 
+// PROVENANCE: original architecture-session design, predates this project's
+// reference-mining exercise. NOT verified against Continental reference material —
+// do not assume these field names/shapes are sourced. See
+// docs/interfaces_types_migration.md §0 for the verified-vs-legacy boundary.
 message SceneModel {
   adas.common.Header header = 1;
   adas.perception.GenObjectList objects = 2;

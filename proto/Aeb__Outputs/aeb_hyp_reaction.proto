@@ -1,0 +1,24 @@
+syntax = "proto3";
+package adas.functions;
+import "common/signal_header.proto";
+
+// Imported verbatim from gen1 FCT HEAD ("Hypothesis Evaluation And Decision"),
+// medic_types.h ~line 352: HEADOutCustHypReactions_t (aliased MEDIC_aHyps).
+// All 8 fields imported as-is (reference never splits warning from brake flags).
+// Single instance, not the reference's per-hypothesis list (max 12) — upgrading
+// to `repeated` is additive later. No "fcw" anywhere: this is AEB's warning/
+// reaction output, not a separate function.
+message AebHypReaction {
+  adas.common.SignalHeader sig_header = 1;
+  uint32 version_number = 2;
+  uint32 critical_obj_id = 3;   // OUR addition — not in the reference (see plan.md §5.7 Step 1b decision 7)
+
+  bool b_latent_pre_warning_active = 4;
+  bool b_latent_acute_warning_active = 5;
+  bool b_dynamic_pre_warning_active = 6;
+  bool b_dynamic_acute_warning_active = 7;
+  bool b_dynamic_haptic_acute_warning_active = 8;
+  bool b_hba_active = 9;         // brake stage — unread until the AEB-actuation increment
+  bool b_pre_fill_active = 10;   // brake stage — unread until the AEB-actuation increment
+  bool b_pre_brake_active = 11;  // brake stage — unread until the AEB-actuation increment
+}

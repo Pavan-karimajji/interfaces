@@ -1,0 +1,78 @@
+syntax = "proto3";
+package adas.common;
+import "common/signal_header.proto";
+
+// Imported verbatim from gen1 FCT (algo_type.h ~lines 1746-1871: Longitudinal_t,
+// YawRateVehDyn_t, CurveVehDyn_t, DrvIntCurveVehDyn_t, LatAccelVehDyn_t,
+// SideSlipVehDyn_t, SelfSteerVehDyn_t, Lateral_t, MotionStateVehDyn_t, VehDyn_t).
+// Cross-validated against the real VDY producer (adas_vdy/ecu/vdy.h).
+message VehDyn {
+  uint32 version_number = 1;
+  SignalHeader sig_header = 2;
+  Longitudinal longitudinal = 3;
+  Lateral lateral = 4;
+  MotionState motion_state = 5;
+  repeated uint32 state = 6;   // State_array_t[12]; opaque codes (VDYIoStateTypes_t not sourced)
+
+  message Longitudinal {
+    float velocity = 1;
+    uint32 velocity_timestamp = 2;
+    float velocity_raw = 3;
+    float accel = 4;
+    uint32 accel_timestamp = 5;
+    float var_velocity = 6;
+    float var_accel = 7;
+    uint32 velocity_correction_quality = 8;
+  }
+
+  message Lateral {
+    YawRate yaw_rate = 1;
+    Curve curve = 2;
+    DrvIntCurve drv_int_curve = 3;
+    LatAccel accel = 4;
+    SideSlip slip_angle = 5;
+    SelfSteer self_steering = 6;
+
+    message YawRate {
+      float yaw_rate = 1;
+      uint32 yaw_rate_timestamp = 2;
+      float yaw_rate_raw = 3;
+      float yaw_angle = 4;
+      float variance = 5;
+    }
+    message Curve {
+      float curve = 1;
+      uint32 curve_timestamp = 2;
+      float var_curve = 3;
+      float crv_error = 4;
+      uint32 crv_conf = 5;
+    }
+    message DrvIntCurve {
+      float curve = 1;
+      uint32 curve_timestamp = 2;
+      float variance = 3;
+      float gradient = 4;
+    }
+    message LatAccel {
+      float lat_accel = 1;
+      uint32 lat_accel_timestamp = 2;
+      float variance = 3;
+    }
+    message SideSlip {
+      float side_slip_angle = 1;
+      float variance = 2;
+    }
+    message SelfSteer {
+      float road_bank_angle = 1;
+      float qu_road_bank_angle = 2;
+      float self_steer_grad_est = 3;
+      float qu_self_steer_grad_est = 4;
+    }
+  }
+
+  message MotionState {
+    uint32 mot_state = 1;      // opaque; literal set not sourced yet
+    uint32 confidence = 2;
+    bool b_roller_test_bench = 3;
+  }
+}

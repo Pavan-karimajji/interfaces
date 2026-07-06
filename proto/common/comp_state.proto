@@ -1,0 +1,20 @@
+syntax = "proto3";
+package adas.functions;   // NOT adas.common — physically shared infra, semantically function-lifecycle
+import "common/signal_header.proto";
+
+// Imported verbatim from acdc2 (algocompstate::CompState), independently corroborated
+// via adas_bsd's design doc. Every function's provide-ports include one CompState as
+// a heartbeat/opmode signal (superproject plan.md §5.4).
+message CompState {
+  adas.common.SignalHeader sig_header = 1;
+  string function = 2;
+  State state = 3;
+  string reason = 4;
+
+  enum State {
+    NOT_INITIALIZED = 0;
+    RUNNING = 1;
+    ERROR = 2;
+    SUCCESS = 4;   // gap at 3 preserved verbatim from acdc2's enum
+  }
+}

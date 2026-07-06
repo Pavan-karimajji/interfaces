@@ -1,0 +1,117 @@
+syntax = "proto3";
+package adas.perception;
+
+// Imported verbatim from gen1 FCT (src/fct_sen/platform/rad6xx/FCT_COMMON/algo_type.h,
+// EM_t_GenObject and its substructures, ~lines 2010-2153). Field names verbatim.
+// bbox_3d dropped versus the pre-reference Track message — see docs/interfaces_types_migration.md §0.6.
+message GenObject {
+  message Kinematics {
+    float f_dist_x = 1;
+    float f_dist_x_std = 2;
+    float f_dist_y = 3;
+    float f_dist_y_std = 4;
+    float f_vrel_x = 5;
+    float f_vrel_x_std = 6;
+    float f_vrel_y = 7;
+    float f_vrel_y_std = 8;
+    float f_arel_x = 9;
+    float f_arel_x_std = 10;
+    float f_arel_y = 11;
+    float f_arel_y_std = 12;
+    float f_vabs_x = 13;
+    float f_vabs_x_std = 14;
+    float f_vabs_y = 15;
+    float f_vabs_y_std = 16;
+    float f_aabs_x = 17;
+    float f_aabs_x_std = 18;
+    float f_aabs_y = 19;
+    float f_aabs_y_std = 20;
+  }
+
+  message Geometry {
+    message ShapePointCoord {
+      float f_pos_x = 1;
+      float f_pos_y = 2;
+      uint32 ui_pos_x_std = 3;
+      uint32 ui_pos_y_std = 4;
+    }
+    repeated ShapePointCoord shape_point_coordinates = 1;   // max 4, per reference (EM_t_GenObjSPCArray_t)
+    repeated uint32 shape_point_states = 2;                 // max 4, per reference (EM_t_GenObjSPSArray_t)
+  }
+
+  message Attributes {
+    DynamicProperty e_dynamic_property = 1;
+    uint32 ui_dyn_confidence = 2;
+    Classification e_classification = 3;
+    uint32 ui_class_confidence = 4;
+    uint32 e_object_occlusion = 5;   // opaque; literal set not found (EM_t_GenObjOcclusionState)
+  }
+
+  message Generals {
+    float f_life_time = 1;
+    uint32 ui_last_measured_time_stamp = 2;
+    uint32 ui_life_cycles = 3;
+    uint32 ui_last_measured_cycle = 4;
+    uint32 e_maintenance_state = 5;   // acdc2: DELETED=0, NEW=1, MAINTAINED=2 (3 of documented 0..3 range found)
+    uint32 ui_id = 6;
+    int32 i_global_id = 7;
+    uint32 e_split_merge_state = 8;   // acdc2: NONE=0, MERGE=1, SPLIT=2
+    uint32 ui_merge_id = 9;
+    uint32 ui_split_id = 10;
+    uint32 e_sensor_source = 11;      // acdc2: NONE,LRR,MRR,SRR,HFL,SRL,CAM,USN,CTC,SVC,RSU
+    uint32 e_obj_ref_point_pos = 12;  // opaque; literal set not found (FCT_e_objRefPointPos)
+  }
+
+  message Qualifiers {
+    uint32 e_eba_inhibition_mask = 1;
+    uint32 ui_probability_of_existence = 2;
+    uint32 ui_acc_obj_quality = 3;
+    uint32 ui_eba_obj_quality = 4;
+    uint32 e_eba_hyp_cat = 5;         // BITMASK, not enum: NONE=0,PED=1,VCL=2,XING=4,ONC=8,STAT=16,CYCL=32,COMOV=64,ALL=255
+    uint32 e_eba_obj_class = 6;       // opaque; literal set not found
+    uint32 e_eba_qualifier_enable = 7;   // opaque; literal set not found
+    uint32 e_eba_qualifier_keep = 8;     // opaque; literal set not found
+    EbaMovState e_eba_obj_mov_state_curr = 9;
+    EbaMovState e_eba_obj_mov_state_prev = 10;
+  }
+
+  Kinematics kinematic = 1;
+  Geometry geometry = 2;
+  Attributes attributes = 3;
+  Generals general = 4;
+  Qualifiers qualifiers = 5;
+
+  enum DynamicProperty {
+    MOVING = 0;
+    STATIONARY = 1;
+    ONCOMING = 2;
+    CROSSING_LEFT = 3;
+    CROSSING_RIGHT = 4;
+    UNKNOWN = 5;
+    STOPPED = 6;
+  }
+
+  enum Classification {
+    POINT = 0;
+    CAR = 1;
+    TRUCK = 2;
+    PEDESTRIAN = 3;
+    MOTORCYCLE = 4;
+    BICYCLE = 5;
+    WIDE = 6;
+    UNCLASSIFIED = 7;
+    OTHER_VEHICLE = 8;
+    TL = 9;
+    MULTIPLE = 10;
+  }
+
+  enum EbaMovState {
+    EBA_MOVSTATE_UNKNOWN = 0;
+    EBA_MOVSTATE_STATIC = 1;
+    EBA_MOVSTATE_STOPPED = 2;
+    EBA_MOVSTATE_COMOVING = 3;
+    EBA_MOVSTATE_ONCOMING = 4;
+    EBA_MOVSTATE_CROSSING = 5;
+    EBA_MOVSTATE_CROSSING_SOFT = 6;
+  }
+}

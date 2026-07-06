@@ -1,0 +1,15 @@
+syntax = "proto3";
+package adas.perception;
+import "common/signal_header.proto";
+import "PerceptionCore__Outputs/gen_object.proto";
+
+// Imported verbatim from gen1 FCT (EM_t_GenObjectList, algo_type.h ~lines 2156-2166).
+message GenObjectList {
+  uint32 version_number = 1;
+  adas.common.SignalHeader sig_header = 2;
+  repeated uint32 sorted_object_list = 3;   // EM_t_GenObjSortedIdxArray; max = EM_N_OBJECTS (variant-dependent, not fixed)
+  uint32 num_of_used_objects = 4;
+  uint32 e_obj_list_source = 5;             // opaque
+  repeated GenObject objects = 6;           // aObject[EM_N_OBJECTS]; max is variant-dependent
+  uint32 e_sig_status_pre = 7;
+}

@@ -13,12 +13,20 @@ add_library(adas-interfaces STATIC)
 adas_generate_protos(adas-interfaces
     FILES
         proto/common/common.proto
-        proto/common/veh_dyn.proto
+        proto/common/signal_header.proto
+        proto/common/comp_state.proto
         proto/isp/frame.proto
         proto/perception/detection.proto
-        proto/perception/object.proto
         proto/perception/free_space.proto
-        proto/functions/comp_state.proto
+        proto/PerceptionCore__Outputs/gen_object.proto
+        proto/PerceptionCore__Outputs/gen_object_list.proto
+        proto/VehSigProvider__Outputs/veh_dyn.proto
+        proto/Aeb__Outputs/aeb_hyp_reaction.proto
+        proto/lane/lane.proto
+        proto/planning/trajectory.proto
+        proto/control/control_command.proto
+        proto/fusion/scene_model.proto
+        proto/radar/radar_object.proto
 )
 
 # Export its public header search path (for internal usage inside the subdirectory)
