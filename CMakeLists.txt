@@ -38,6 +38,14 @@ if(TARGET protobuf::libprotobuf)
     endif()
 endif()
 
+# Install the compiled library (needed for a real `conan create` package;
+# editable mode - what we actually use today, plan.md item 1 - bypasses this
+# entirely and resolves straight from the build tree instead).
+install(TARGETS adas-interfaces
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+)
+
 # Install headers
 install(DIRECTORY cpp/ DESTINATION include/adas-interfaces)
 install(DIRECTORY proto/ DESTINATION share/adas-interfaces/proto)
