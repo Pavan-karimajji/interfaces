@@ -4,7 +4,7 @@ namespace adas { namespace perception { class GenObjectList; } }
 namespace adas { namespace common { class VehDyn; } }
 namespace adas { namespace control { class ControlCommand; } }
 
-namespace adas { namespace functions {
+namespace adas { namespace df {
 
 /// @brief Interface for Autonomous Emergency Braking
 class IAEBController {
@@ -21,4 +21,4 @@ public:
     virtual bool is_active() const = 0;
 };
 
-}} // namespace adas::functions
+}} // namespace adas::df

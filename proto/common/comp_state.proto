@@ -1,5 +1,5 @@
 syntax = "proto3";
-package adas.functions;   // NOT adas.common — physically shared infra, semantically function-lifecycle
+package adas.df;   // NOT adas.common — physically shared infra, semantically function-lifecycle
 import "common/signal_header.proto";
 
 // Imported verbatim from acdc2 (algocompstate::CompState), independently corroborated

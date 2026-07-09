@@ -1,14 +1,16 @@
 syntax = "proto3";
-package adas.functions;
+package adas.df;
 import "common/signal_header.proto";
 
-// Imported verbatim from gen1 FCT HEAD ("Hypothesis Evaluation And Decision"),
-// medic_types.h ~line 352: HEADOutCustHypReactions_t (aliased MEDIC_aHyps).
-// All 8 fields imported as-is (reference never splits warning from brake flags).
-// Single instance, not the reference's per-hypothesis list (max 12) — upgrading
-// to `repeated` is additive later. No "fcw" anywhere: this is AEB's warning/
-// reaction output, not a separate function.
-message AebHypReaction {
+// Fields imported verbatim from gen1 FCT HEAD ("Hypothesis Evaluation And
+// Decision"), medic_types.h ~line 352: HEADOutCustHypReactions_t (aliased
+// MEDIC_aHyps). All 8 fields imported as-is (reference never splits warning
+// from brake flags). Single instance, not the reference's per-hypothesis list
+// (max 12) — upgrading to `repeated` is additive later. No "fcw" anywhere:
+// this is AEB's warning/reaction output, not a separate function.
+// Message NAME is ours, not the reference's (renamed from AebHypReaction,
+// 2026-07-08) — the verbatim-import rule applies to the fields, not the type.
+message AebOutputs {
   adas.common.SignalHeader sig_header = 1;
   uint32 version_number = 2;
   uint32 critical_obj_id = 3;   // OUR addition — not in the reference (see plan.md §5.7 Step 1b decision 7)

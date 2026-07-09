@@ -2,7 +2,7 @@ syntax = "proto3";
 package adas.common;
 
 // Imported verbatim from adas_vdy (sil/vdy_adapter/data_types/interfaceVDYInterCycle.h:357-363).
-// Used ONLY by verified/reference-derived messages: GenObjectList, VehDyn, AebHypReaction,
+// Used ONLY by verified/reference-derived messages: GenObjectList, VehDyn, AebOutputs,
 // CompState. Everything else keeps adas.common.Header — see docs/interfaces_types_migration.md §0.5.
 message SignalHeader {
   uint32 ui_time_stamp = 1;

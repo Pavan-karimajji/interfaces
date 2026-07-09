@@ -4,7 +4,7 @@ namespace adas { namespace lane { class LaneModel; } }
 namespace adas { namespace common { class VehDyn; } }
 namespace adas { namespace control { class ControlCommand; } }
 
-namespace adas { namespace functions {
+namespace adas { namespace df {
 
 class ILKAController {
 public:
@@ -14,4 +14,4 @@ public:
         const adas::common::VehDyn& vehDyn) = 0;
 };
 
-}} // namespace adas::functions
+}} // namespace adas::df
