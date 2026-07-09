@@ -9,8 +9,18 @@ include(cmake/proto_generate.cmake)
 # Define static library
 add_library(adas-interfaces STATIC)
 
+# Opt-in Python protobuf bindings for Python hosts (e.g. the CARLA bridge,
+# modules/df/src/platform/carla) — OFF by default so plain C++ builds/presets
+# are unaffected. Output lands in build/generated_py.
+option(ADAS_GENERATE_PYTHON_PROTO "Also generate Python protobuf bindings" OFF)
+set(_ADAS_PROTO_PYTHON_ARGS)
+if(ADAS_GENERATE_PYTHON_PROTO)
+    set(_ADAS_PROTO_PYTHON_ARGS PYTHON_OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated_py")
+endif()
+
 # Generate proto sources and associate them with adas-interfaces target
 adas_generate_protos(adas-interfaces
+    ${_ADAS_PROTO_PYTHON_ARGS}
     FILES
         proto/common/common.proto
         proto/common/signal_header.proto
