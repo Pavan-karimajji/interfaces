@@ -58,28 +58,28 @@ message GenObject {
     uint32 e_split_merge_state = 8;   // acdc2: NONE=0, MERGE=1, SPLIT=2
     uint32 ui_merge_id = 9;
     uint32 ui_split_id = 10;
-    uint32 e_sensor_source = 11;      // acdc2: NONE,LRR,MRR,SRR,HFL,SRL,CAM,USN,CTC,SVC,RSU
-    uint32 e_obj_ref_point_pos = 12;  // opaque; literal set not found (FCT_e_objRefPointPos)
-  }
-
-  message Qualifiers {
-    uint32 e_eba_inhibition_mask = 1;
-    uint32 ui_probability_of_existence = 2;
-    uint32 ui_acc_obj_quality = 3;
-    uint32 ui_eba_obj_quality = 4;
-    uint32 e_eba_hyp_cat = 5;         // BITMASK, not enum: NONE=0,PED=1,VCL=2,XING=4,ONC=8,STAT=16,CYCL=32,COMOV=64,ALL=255
-    uint32 e_eba_obj_class = 6;       // opaque; literal set not found
-    uint32 e_eba_qualifier_enable = 7;   // opaque; literal set not found
-    uint32 e_eba_qualifier_keep = 8;     // opaque; literal set not found
-    EbaMovState e_eba_obj_mov_state_curr = 9;
-    EbaMovState e_eba_obj_mov_state_prev = 10;
+    // Sensor-contribution bitmask - bit 0 = camera, bit 1 = radar (both set =
+    // fused). Field name borrowed verbatim from acdc2's real fused-object
+    // interface (`contributingSensors`, tp_state_reader_common.h) per
+    // .claude/skills/naming_conventions.md's reference-derived-additions rule
+    // - but this BIT LAYOUT is project-specific, not acdc2's own
+    // technology/variant/mounting packing (docs/df_genobject_vehdyn_fusion_interfaces_plan.md
+    // §4.6). proto3 has no uint16 scalar type, hence uint32 for a 2-bit value.
+    // Reuses field number 11 (previously e_sensor_source) - safe: no producer
+    // has ever set it non-zero (confirmed by repo-wide search), and proto3
+    // omits default-valued scalars from the wire, so no prior recording's
+    // bytes are affected.
+    uint32 contributingSensors = 11;
+    reserved 12;
+    reserved "e_obj_ref_point_pos";  // opaque, zero consumers - removed per docs/df_contributing_sensors_implementation_plan.md §11
   }
 
   Kinematics kinematic = 1;
   Geometry geometry = 2;
   Attributes attributes = 3;
   Generals general = 4;
-  Qualifiers qualifiers = 5;
+  reserved 5;
+  reserved "qualifiers";  // Qualifiers sub-structure removed wholesale, zero consumers - docs/df_contributing_sensors_implementation_plan.md §11
 
   enum DynamicProperty {
     MOVING = 0;
@@ -103,15 +103,5 @@ message GenObject {
     OTHER_VEHICLE = 8;
     TL = 9;
     MULTIPLE = 10;
-  }
-
-  enum EbaMovState {
-    EBA_MOVSTATE_UNKNOWN = 0;
-    EBA_MOVSTATE_STATIC = 1;
-    EBA_MOVSTATE_STOPPED = 2;
-    EBA_MOVSTATE_COMOVING = 3;
-    EBA_MOVSTATE_ONCOMING = 4;
-    EBA_MOVSTATE_CROSSING = 5;
-    EBA_MOVSTATE_CROSSING_SOFT = 6;
   }
 }
