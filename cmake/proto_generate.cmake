@@ -73,7 +73,7 @@ function(adas_generate_protos TARGET_NAME)
         list(APPEND GENERATED_SRCS "${src_out}")
         list(APPEND GENERATED_HDRS "${hdr_out}")
 
-        # Opt-in Python bindings (e.g. for the CARLA bridge, modules/df/src/platform/carla) —
+        # Opt-in Python bindings (e.g. for the CARLA bridge, modules/df/tools/carla) —
         # same .proto files, same protoc, just a second output language. Skipped entirely
         # unless a caller passes PYTHON_OUT_DIR, so C++-only consumers pay zero extra cost.
         if(PROTO_PYTHON_OUT_DIR)
