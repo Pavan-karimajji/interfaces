@@ -1,0 +1,29 @@
+# Minimal per-project x per-part platform mapping for this component,
+# schema-matched to modules/df/conf/build.yml (see docs/project_variant_model.md).
+#
+# Unlike df's conf/build.yml, the platforms: value here isn't consumed by
+# interfaces/build.bat (it takes no project/part/platform arguments - it
+# always runs the same fixed `conan-default`/`conan-release` presets). This
+# file's only job is to give build.py (superproject dispatcher) a
+# variants/<project>/<part>/platforms entry so it stops skipping this
+# component (plan.md item 12) - it is not (yet) a real per-platform toggle
+# for interfaces itself. There is also no requires:/tool_requires: here,
+# unlike df's file - interfaces/conanfile.py hardcodes its own
+# `requires = ("protobuf/3.21.12",)` directly rather than reading this
+# file, so adding those keys here would be unused, misleading duplication.
+#
+# Note: build.py forwards a `clean` token as a 4th positional arg when
+# --clean is passed, but interfaces/build.bat only ever inspects its own
+# first argument for "clean" - so --clean does not currently clean
+# interfaces' build output through this path. Not a new gap introduced
+# here; build.bat's own argument convention is unchanged.
+
+variants:
+  base:
+    sil:
+      platforms:
+        - build: vs2026
+  cus1:
+    sil:
+      platforms:
+        - build: vs2026

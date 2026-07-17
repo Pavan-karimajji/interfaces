@@ -22,7 +22,7 @@ REM folder scheme (build/), which is also what editable-mode consumers
 REM resolve headers/libs against (conanfile.py's layout()) - an explicit
 REM --output-folder here would double up with that and break the paths.
 echo Installing Conan dependencies...
-conan install . --build=missing -s build_type=Release
+conan install . --update --build=missing -s build_type=Release
 if errorlevel 1 exit /b 1
 
 echo Configuring preset conan-default ...

@@ -6,3 +6,7 @@ cmake_install.cmake
 CMakeUserPresets.json
 .vs/
 *.user
+
+# Python (scripts/interfaces_gui.py)
+__pycache__/
+*.pyc
