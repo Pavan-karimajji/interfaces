@@ -1,0 +1,53 @@
+// Copyright (c) L&T EPS. All Rights Reserved.
+// Proprietary and Confidential.
+// COMPONENT: INTERFACES
+// @author Pavan Karimajji <Pavan.Karimajji@larsentoubro.com>
+
+syntax = "proto3";
+package adas.common;
+import "common/signal_header.proto";
+
+// Raw vehicle-signal bus feeding vdy — the pre-estimation counterpart to
+// VehDyn (vdy's output, VehSigProvider__Outputs/veh_dyn.proto). Cross-checked
+// against the real VDY producer's own input interface (adas_vdy/sil/
+// vdy_adapter/data_types/interfaceVDYInterCycle.h, VDY_VehSigMain — the
+// struct vdy_main.c actually reads its raw signals from). Narrowed to the
+// signals a bicycle-model vehicle-dynamics estimator needs (yaw rate,
+// lateral accel, steering angle, four wheel speeds, longitudinal accel) —
+// the reference struct's drivetrain/gear/brake-state fields, external-source
+// overrides (VehVelocityExt, CurveC0Ext, ...), and multi-sensor-source
+// arbitration (SensorSourceStatus) are real but have no consumer in this
+// project (Park, same discipline as
+// docs/df_genobject_vehdyn_fusion_interfaces_plan.md's field-by-field pass).
+// Lives in proto/common/ (not a <Producer>__Outputs/ folder) because it has
+// no software producer in this repo — it's raw sensor data, the same
+// situation SignalHeader/CompState are already in.
+message VehSig {
+  uint32 version_number = 1;
+  SignalHeader sig_header = 2;
+
+  YawRateSensor yaw_rate_sensor = 3;
+  LatAccelSensor lat_accel_sensor = 4;
+  SteeringAngleSensor steering_angle_sensor = 5;
+  WheelSpeeds wheel_speeds = 6;
+  float long_accel = 7;   // raw longitudinal accelerometer signal (VDY_VehSigMain.LongAccel)
+
+  message YawRateSensor {
+    float yaw_rate = 1;             // VDY_VehSigMain.YawRate
+    uint32 yaw_rate_timestamp = 2;  // VDY_VehSigMain.YawRateTimeStamp
+  }
+  message LatAccelSensor {
+    float lat_accel = 1;             // VDY_VehSigMain.LatAccel
+    uint32 lat_accel_timestamp = 2;  // VDY_VehSigMain.LatAccelTimeStamp
+  }
+  message SteeringAngleSensor {
+    float steering_wheel_angle = 1;             // VDY_VehSigMain.StWheelAngle
+    uint32 steering_wheel_angle_timestamp = 2;  // VDY_VehSigMain.StWheelAngleTimeStamp
+  }
+  message WheelSpeeds {
+    float whl_vel_fr_left = 1;    // VDY_VehSigMain.WhlVelFrLeft
+    float whl_vel_fr_right = 2;   // VDY_VehSigMain.WhlVelFrRight
+    float whl_vel_re_left = 3;    // VDY_VehSigMain.WhlVelReLeft
+    float whl_vel_re_right = 4;   // VDY_VehSigMain.WhlVelReRight
+  }
+}

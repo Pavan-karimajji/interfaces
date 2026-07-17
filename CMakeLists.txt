@@ -25,6 +25,7 @@ adas_generate_protos(adas-interfaces
         proto/common/common.proto
         proto/common/signal_header.proto
         proto/common/comp_state.proto
+        proto/common/veh_sig.proto
         proto/isp/frame.proto
         proto/perception/detection.proto
         proto/perception/free_space.proto
