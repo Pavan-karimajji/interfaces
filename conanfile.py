@@ -49,13 +49,32 @@ class InterfacesConan(ConanFile):
         self.version = match.group(1)
 
     def layout(self):
-        cmake_layout(self)
-        # cpp/ and generated/ don't match cmake_layout()'s include/ default -
-        # editable-mode consumers resolve headers/libs relative to these,
-        # independent of package()/install() (which only run for a real
-        # `conan create`, not for editable mode - see plan.md item 1).
-        self.cpp.source.includedirs = ["cpp"]
-        self.cpp.build.includedirs = ["generated"]
+        # plan.md item 11, docs/sil_dependency_wiring_plan.md - same
+        # conditional template copied into every component's conanfile.py
+        # (item 10's own philosophy), branching on this file's own
+        # layout_kind and Conan's own self.package_type (package_kind was
+        # removed from conf/build.yml entirely,
+        # docs/build_regression_tests.md §5) rather than being hand-written
+        # per component. cpp/ and generated/ don't match cmake_layout()'s
+        # include/ default - editable-mode consumers resolve headers/libs
+        # relative to these, independent of package()/install() (which only
+        # run for a real `conan create`, not for editable mode - see plan.md
+        # item 1).
+        conf_path = Path(self.recipe_folder) / "conf" / "build.yml"
+        conf = yaml.safe_load(conf_path.read_text(encoding="utf-8"))
+        layout_kind = conf.get("layout_kind", "output_folder")
+
+        if layout_kind == "cmake_layout":
+            cmake_layout(self)
+            self.cpp.source.includedirs = ["cpp"]
+            self.cpp.build.includedirs = ["generated"]
+        elif self.package_type in ("shared-library", "static-library"):
+            comp = self.name.replace("adas-", "")
+            platform = conf["variants"][str(self.options.project)]["sil"]["platforms"][0]["build"]
+            build_type = str(self.settings.build_type) if self.settings.get_safe("build_type") else "Release"
+            self.cpp.source.includedirs = [f"src/platform/{comp}_sil"]
+            self.cpp.build.libdirs = [f"build-sil-{platform}/src/platform/{comp}_sil/{build_type}"]
+            self.cpp.build.bindirs = [f"build-sil-{platform}/src/platform/{comp}_sil/{build_type}"]
 
     def generate(self):
         tc = CMakeToolchain(self)
