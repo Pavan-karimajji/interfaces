@@ -1,29 +1,45 @@
 # Minimal per-project x per-part platform mapping for this component,
 # schema-matched to modules/df/conf/build.yml (see docs/project_variant_model.md).
 #
-# Unlike df's conf/build.yml, the platforms: value here isn't consumed by
-# interfaces/build.bat (it takes no project/part/platform arguments - it
-# always runs the same fixed `conan-default`/`conan-release` presets). This
-# file's only job is to give build.py (superproject dispatcher) a
-# variants/<project>/<part>/platforms entry so it stops skipping this
-# component (plan.md item 12) - it is not (yet) a real per-platform toggle
-# for interfaces itself. There is also no requires:/tool_requires: here,
-# unlike df's file - interfaces/conanfile.py hardcodes its own
-# `requires = ("protobuf/3.21.12",)` directly rather than reading this
-# file, so adding those keys here would be unused, misleading duplication.
+# Unlike df's conf/build.yml, the platforms: value here isn't consumed as a
+# real per-platform toggle - interfaces always runs the same fixed
+# `conan-default`/`conan-release` presets (layout_kind: cmake_layout below).
+# This entry still gives scripts/build.py a variants/<project>/<part>/
+# platforms row so it stops skipping this component (plan.md item 12), and
+# gives its own `config` mode something real to list.
 #
-# Note: build.py forwards a `clean` token as a 4th positional arg when
-# --clean is passed, but interfaces/build.bat only ever inspects its own
-# first argument for "clean" - so --clean does not currently clean
-# interfaces' build output through this path. Not a new gap introduced
-# here; build.bat's own argument convention is unchanged.
+# package_kind/layout_kind: plan.md item 10 (docs/build_conanfile_commonization_plan.md
+# section 2, section 3.3) - layout_kind: cmake_layout records this component's real,
+# deliberate divergence (its layout() ties editable-mode header resolution to
+# cmake_layout()'s own fixed build/ folder, not --output-folder) as data the
+# common scripts/build.py branches on, rather than a hardcoded special case
+# or a risky forced migration. No separate targets: field (§2.1a, revised
+# 2026-07-20) - the one sil: key below IS interfaces' one real declared
+# target; build.py validates part against it strictly like every other
+# component now, no more silent accept-and-ignore for an undeclared part.
+#
+# requires:/tool_requires: (step 5, same section 6) - moved off a hardcoded
+# conanfile.py class attribute onto the same data-driven
+# requirements()/build_requirements() pattern df/vdy/sil/perception-core all
+# use, now that conanfile.py is commonized. Same dependency (protobuf),
+# same version, just declared as data now.
+package_kind: library
+layout_kind: cmake_layout
 
 variants:
   base:
+    requires:
+      - protobuf/3.21.12
+    tool_requires:
+      - protobuf/3.21.12
     sil:
       platforms:
         - build: vs2026
   cus1:
+    requires:
+      - protobuf/3.21.12
+    tool_requires:
+      - protobuf/3.21.12
     sil:
       platforms:
         - build: vs2026
