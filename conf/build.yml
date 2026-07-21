@@ -35,8 +35,14 @@ variants:
     tool_requires:
       - protobuf/3.21.12
     sil:
-      platforms:
+      platforms: &base_platforms
         - build: vs2026
+    # Rest of the frozen target vocabulary (plan.md item 14,
+    # docs/build_grammar.md) - uncomment as each gains a real implementation:
+    # coverage: { platforms: *base_platforms }        # gtest + OpenCppCoverage/gcov
+    # docs:     { platforms: [{ build: noarch }] }    # doxygen; noarch = platform-independent
+    # package:  { platforms: *base_platforms }        # conan create (+ --upload)
+    # prod:     { platforms: [{ build: aarch64_qcc_qnx }, { build: tda4_ti }] }
   cus1:
     requires:
       - protobuf/3.21.12
