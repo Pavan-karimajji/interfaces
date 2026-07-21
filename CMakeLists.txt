@@ -9,6 +9,13 @@ include(cmake/proto_generate.cmake)
 # Define static library
 add_library(adas-interfaces STATIC)
 
+# plan.md item 13 (docs/build_superbuild_aggregator_plan.md §3) - lets a
+# consumer link "AdasInterfaces::AdasInterfaces" whether interfaces is in-tree
+# (this alias, via the superproject aggregator's add_subdirectory) or a real
+# Conan package (find_package's own same-named imported target) - zero
+# branching in any consumer's CMakeLists.txt either way.
+add_library(AdasInterfaces::AdasInterfaces ALIAS adas-interfaces)
+
 # Opt-in Python protobuf bindings for Python hosts (e.g. the CARLA bridge,
 # modules/df/tools/carla) — OFF by default so plain C++ builds/presets
 # are unaffected. Output lands in build/generated_py.
