@@ -28,6 +28,14 @@
 # same version, just declared as data now.
 layout_kind: cmake_layout
 
+# recipe: Conan-package identity read by the byte-identical conanfile.py
+# template (plan.md item 20, docs/conanfile_commonality_plan.md §7.2).
+# interfaces is the one static-library; its lib is adas-interfaces (not the
+# <comp>_sil convention df/vdy use), so the lib name must be data.
+recipe:
+  type: static-library
+  libs: [adas-interfaces]
+
 variants:
   base:
     requires:
