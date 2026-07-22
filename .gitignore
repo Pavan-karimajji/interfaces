@@ -7,6 +7,9 @@ CMakeUserPresets.json
 .vs/
 *.user
 
-# Python (scripts/interfaces_gui.py)
+# Python (scripts/build_gui.py)
 __pycache__/
 *.pyc
+
+# Developer GUI - machine-local settings (last-used selections)
+scripts/build_gui_config.json
